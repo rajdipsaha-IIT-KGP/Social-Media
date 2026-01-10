@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   FaEllipsisV,
@@ -6,6 +6,8 @@ import {
   FaRegHeart,
   FaRegComment,
 } from "react-icons/fa";
+import { UserData } from "../context/UserContext";
+import { PostData } from "../context/PostContext";
 
 const PostCard = ({ value }) => {
   const [liked, setLiked] = useState(false);
@@ -14,28 +16,29 @@ const PostCard = ({ value }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(value.comments || []);
   const [loading, setLoading] = useState(false);
-
+  const {user} = UserData()
+  const {likePost} = PostData()
+  useEffect(()=>{
+     for(let i = 0 ; i < value.likes.length ; i++){
+       if(value.likes[i] === user._id){
+ setLiked(value.likes.includes(user._id));
+  setLikes(value.likes.length);
+       }
+     
+     }
+  },[value,user._id])
   /* =========================
      LIKE / UNLIKE
   ========================= */
   const toggleLike = async () => {
-    // if (loading) return;
-    // try {
-    //   setLoading(true);
+    if (liked) {
+    setLikes((prev) => prev - 1);
+  } else {
+    setLikes((prev) => prev + 1);
+  }
 
-    //   await axios.post(
-    //     `http://localhost:3000/api/posts/${value._id}/like`,
-    //     {},
-    //     { withCredentials: true }
-    //   );
-
-    //   setLiked(!liked);
-    //   setLikes((prev) => (liked ? prev - 1 : prev + 1));
-    // } catch (err) {
-    //   console.error(err);
-    // } finally {
-    //   setLoading(false);
-    // }
+  setLiked(!liked);
+  likePost(value._id);
   };
 
   /* =========================
@@ -76,7 +79,7 @@ const PostCard = ({ value }) => {
                 {value.owner.name}
               </p>
               <p className="text-gray-500 text-xs">
-                {new Date(value.createdAt).toLocaleString()}
+                {new Date(value.createdAt).toLocaleString()}(IST)
               </p>
             </div>
           </div>

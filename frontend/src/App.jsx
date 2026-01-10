@@ -9,6 +9,7 @@ import Account from "./pages/Account";
 import { UserData } from "./context/UserContext";
 import Navigationbar from './Components/Navigationbar';
 import NotFound from './Components/NotFound';
+import AddPost from './Components/AddPost';
 
 const App = () => {
   const { user, isAuth, loading } = UserData();
@@ -22,7 +23,9 @@ const App = () => {
         <Route path="/account" element={isAuth ? <Account user={user} /> : <Login />} />
         <Route path="/login" element={<Login /> } />
         <Route path="/register" element={ <Register /> } />
+        <Route path='/create' element={<AddPost type="post"/>}/>
         <Route path ='*' element={<NotFound/>}/>
+
       </Routes>
       {isAuth?<Navigationbar/>:"Login first"}
     </BrowserRouter>
