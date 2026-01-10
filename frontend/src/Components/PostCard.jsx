@@ -60,7 +60,7 @@ const PostCard = ({ value }) => {
   };
 
   return (
-    <div className="flex justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 py-6 px-4">
+    <div className="flex justify-center bg-linear-to-br from-gray-900 via-black to-gray-900 py-6 px-4">
       <div className="w-full max-w-md bg-gray-900 border border-gray-800 rounded-2xl shadow-lg p-4">
 
         {/* ================= HEADER ================= */}

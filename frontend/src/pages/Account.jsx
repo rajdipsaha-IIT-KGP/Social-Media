@@ -15,7 +15,7 @@ const Account = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-brfrom-gray-900 to-black px-4">
       <div className="w-full max-w-sm bg-gray-800 rounded-2xl shadow-xl p-6 text-white">
 
         {/* Profile Image */}

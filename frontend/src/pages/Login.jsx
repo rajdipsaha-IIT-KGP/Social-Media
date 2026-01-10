@@ -23,7 +23,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-900 to-black">
       <ToastContainer theme="dark" />
 
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-8">
