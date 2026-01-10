@@ -11,6 +11,23 @@ export const UserContextProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
+async function logOut() {
+  try {
+    const { data } = await axios.get(
+      "http://localhost:3000/api/auth/logoutUser"
+    );
+
+    if (data.message) {
+      toast.success(data.message);
+      setUser(null);
+      setIsAuth(false);
+    }
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Logout failed");
+  }
+}
+
+
   async function fetchUser() {
     try {
       const { data } = await axios.get(
@@ -44,9 +61,23 @@ export const UserContextProvider = ({ children }) => {
       toast.error(err.response?.data?.message || "Login failed");
     }
   }
+  async function registerUser(formdata, navigate) {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/api/auth/register",
+       formdata
+      );
+
+      toast.success(data.message);
+      await fetchUser();
+      navigate("/");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Registration failed");
+    }
+  }
 
   return (
-    <UserContext.Provider value={{ loginUser, isAuth, user, loading }}>
+    <UserContext.Provider value={{ loginUser, isAuth, user, loading,logOut ,registerUser}}>
       {children}
       <Toaster />
     </UserContext.Provider>

@@ -4,10 +4,11 @@ import axios from "axios";
 import { FaUser, FaEnvelope, FaLock, FaVenusMars, FaImage } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserData } from "../context/UserContext";
 
 const Register = () => {
   const navigate = useNavigate();
-
+ const {registerUser} = UserData()
   // State variables
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +46,7 @@ const Register = () => {
     formData.append("password", password);
     formData.append("gender", gender);
     formData.append("file", file); // must match multer key
-
+  registerUser(formData,navigate)
     try {
         setLoading(true)
       const res = await axios.post(

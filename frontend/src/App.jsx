@@ -7,9 +7,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Account from "./pages/Account";
 import { UserData } from "./context/UserContext";
+import Navigationbar from './Components/Navigationbar';
+import NotFound from './Components/NotFound';
 
 const App = () => {
-  const { isAuth, loading } = UserData();
+  const { user, isAuth, loading } = UserData();
 
   if (loading) return <p>Loading...</p>;
 
@@ -17,10 +19,12 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="/account" element={isAuth ? <Account /> : <Login />} />
+        <Route path="/account" element={isAuth ? <Account user={user} /> : <Login />} />
         <Route path="/login" element={<Login /> } />
         <Route path="/register" element={ <Register /> } />
+        <Route path ='*' element={<NotFound/>}/>
       </Routes>
+      {isAuth?<Navigationbar/>:"Login first"}
     </BrowserRouter>
   );
 };
