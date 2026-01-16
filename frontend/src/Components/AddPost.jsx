@@ -58,7 +58,7 @@ const AddPost = ({ type }) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 px-4">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center ">
       <div className="relative w-full max-w-md bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-6 animate-fade-in">
 
         {/* Loader Overlay */}

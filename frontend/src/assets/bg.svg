@@ -1,0 +1,111 @@
+<svg width="100%" height="100%" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background -->
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a2236" />
+      <stop offset="100%" stop-color="#0b0e14" />
+    </radialGradient>
+
+    <!-- Glow -->
+    <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- BACKGROUND -->
+  <rect width="800" height="800" fill="url(#bgGradient)" />
+
+  <!-- MOVING CONNECTION LINES -->
+  <g
+    stroke="#3b475f"
+    stroke-width="1.6"
+    fill="none"
+    opacity="0.85"
+    stroke-dasharray="6 10"
+  >
+    <path d="M100 150 L300 100 L500 250 L450 500 L200 600 L100 450 Z">
+      <animate
+        attributeName="stroke-dashoffset"
+        from="0"
+        to="-200"
+        dur="18s"
+        repeatCount="indefinite"
+      />
+    </path>
+
+    <path d="M300 100 L600 150 L750 400 L600 650 L450 500">
+      <animate
+        attributeName="stroke-dashoffset"
+        from="0"
+        to="-200"
+        dur="22s"
+        repeatCount="indefinite"
+      />
+    </path>
+
+    <path d="M200 600 L400 750 L600 650">
+      <animate
+        attributeName="stroke-dashoffset"
+        from="0"
+        to="-200"
+        dur="16s"
+        repeatCount="indefinite"
+      />
+    </path>
+
+    <line x1="300" y1="100" x2="450" y2="500">
+      <animate
+        attributeName="stroke-dashoffset"
+        from="0"
+        to="-200"
+        dur="20s"
+        repeatCount="indefinite"
+      />
+    </line>
+
+    <line x1="500" y1="250" x2="600" y2="150">
+      <animate
+        attributeName="stroke-dashoffset"
+        from="0"
+        to="-200"
+        dur="14s"
+        repeatCount="indefinite"
+      />
+    </line>
+  </g>
+
+  <!-- PULSING NODES -->
+  <g fill="#4fd1c5" filter="url(#nodeGlow)">
+    <circle cx="100" cy="150" r="3">
+      <animate attributeName="r" values="3;5;3" dur="4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="300" cy="100" r="4">
+      <animate attributeName="r" values="4;6;4" dur="5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="500" cy="250" r="4">
+      <animate attributeName="r" values="4;6;4" dur="4.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="600" cy="150" r="3">
+      <animate attributeName="r" values="3;5;3" dur="3.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="750" cy="400" r="3">
+      <animate attributeName="r" values="3;5;3" dur="4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="450" cy="500" r="5">
+      <animate attributeName="r" values="5;7;5" dur="6s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="600" cy="650" r="4">
+      <animate attributeName="r" values="4;6;4" dur="5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="200" cy="600" r="3">
+      <animate attributeName="r" values="3;5;3" dur="4.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="100" cy="450" r="2">
+      <animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="400" cy="750" r="3">
+      <animate attributeName="r" values="3;5;3" dur="4.8s" repeatCount="indefinite" />
+    </circle>
+  </g>
+</svg>
