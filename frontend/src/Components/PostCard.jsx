@@ -4,10 +4,12 @@ import {
   FaHeart,
   FaRegHeart,
   FaRegComment,
+  FaTrash
 } from "react-icons/fa";
 import { UserData } from "../context/UserContext";
 import { PostData } from "../context/PostContext";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ value }) => {
   const [liked, setLiked] = useState(false);
@@ -43,23 +45,30 @@ const PostCard = ({ value }) => {
         {/* HEADER */}
         <div className="flex items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
+            <Link to={`/users/${value.owner._id}`}>
             <img
               src={value.owner.profilePic?.url}
-              className="w-11 h-11 rounded-full object-cover border border-gray-700"
+              className="w-11 h-11 rounded-full object-cover border border-gray-700 cursor-pointer"
               alt="avatar"
             />
+            </Link>
             <div>
-              <p className="text-white font-semibold">
+              <Link to={`/users/${value.owner._id}`}>
+           <p className="text-white font-semibold cursor-pointer hover:underline transition duration-200"
+>
                 {value.owner.name}
               </p>
+            </Link>
+              
+             
               <p className="text-gray-400 text-xs">
                 {new Date(value.createdAt).toLocaleString()}
               </p>
             </div>
           </div>
-          <button className="text-gray-400 hover:text-white">
+         {value.owner._id == user._id && ( <button className="text-gray-400 hover:text-white cursor-pointer">
             <FaEllipsisH />
-          </button>
+          </button>)}
         </div>
 
         {/* CAPTION */}
@@ -131,18 +140,38 @@ const PostCard = ({ value }) => {
           {value.comments.length > 0 ? (
             value.comments.map((c) => (
               <div key={c._id} className="flex gap-3">
+                <Link to ={`/users/${c.user._id}`}>
                 <img
                   src={c.user.profilePic?.url}
                   className="w-9 h-9 rounded-full object-cover"
                   alt="user"
                 />
+                </Link>
                 <div className="bg-[#020617] px-4 py-2.5 rounded-2xl">
-                  <p className="text-white text-sm font-medium">
+               
+                  <div className="flex flex-row gap-4">
+
+                    <Link to ={`/users/${c.user._id}`}>
+                  <p className="text-white font-semibold cursor-pointer hover:underline transition duration-200">
                     {c.user.name}
                   </p>
+                  </Link>
+                  {((c.user._id === user._id) || user._id === value.owner._id) && (<span>
+                  <button
+  className="text-gray-500 hover:text-red-600 active:text-red-700 
+             cursor-pointer transition duration-200"
+  title="Delete"
+>
+  <FaTrash className="scale-100" />
+</button>
+
+                  </span>)}
+                   </div>
+                  
                   <p className="text-gray-400 text-sm">
                     {c.comment}
                   </p>
+                 
                 </div>
               </div>
             ))

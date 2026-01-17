@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {
   FaUser,
   FaEnvelope,
@@ -7,27 +7,53 @@ import {
   FaEdit,
   FaSignOutAlt,
 } from "react-icons/fa";
+
 import { UserData } from "../context/UserContext";
+import { PostData } from "../context/PostContext";
+import PostCard from "../Components/PostCard";
 
 const Account = ({ user }) => {
   const { logOut } = UserData();
+  const { posts } = PostData();
+  const [selectedIndex, setSelectedIndex] = useState(null)
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white">
+        Loading profile...
+      </div>
+    );
+  }
 
+  const myPosts = posts?.filter(
+    (post) => post.owner?._id === user._id
+  );
+  useEffect(() => {
+  if (selectedIndex !== null) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [selectedIndex]);
+
+console.log(myPosts)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-brfrom-gray-900 to-black px-4">
-      <div className="w-full max-w-sm bg-gray-800 rounded-2xl shadow-xl p-6 text-white">
+    <div className=" bg-gradient-to-br from-gray-900 to-black px-4 py-10 text-white">
 
-        {/* Profile Image */}
+      {/* ================= PROFILE CARD ================= */}
+      <div className="max-w-sm mx-auto bg-gray-800 rounded-2xl shadow-xl p-6 pt-20 mb-10">
         <div className="flex justify-center -mt-20 mb-4">
           <img
-            src={user.profilePic.url}
+            src={user.profilePic?.url}
             alt="profile"
             className="w-32 h-32 rounded-full border-4 border-gray-700 object-cover shadow-lg"
           />
         </div>
 
-        {/* User Info */}
         <div className="text-center space-y-2">
           <h2 className="text-xl font-semibold flex items-center justify-center gap-2">
             <FaUser className="text-blue-400" />
@@ -40,44 +66,125 @@ const Account = ({ user }) => {
           </p>
         </div>
 
-        {/* Divider */}
         <div className="border-t border-gray-700 my-5"></div>
 
-        {/* Stats */}
         <div className="flex justify-around text-center">
           <div>
-            <p className="text-lg font-semibold flex items-center justify-center gap-2">
-              <FaUsers className="text-blue-400" />
-              {user.followers.length}
+            <p className="text-lg font-semibold">
+              {user.followers?.length || 0}
             </p>
             <p className="text-xs text-gray-400">Followers</p>
           </div>
 
           <div>
-            <p className="text-lg font-semibold flex items-center justify-center gap-2">
-              <FaUserFriends className="text-blue-400" />
-              {user.followings.length}
+            <p className="text-lg font-semibold">
+              {user.followings?.length || 0}
             </p>
             <p className="text-xs text-gray-400">Following</p>
           </div>
+
+          <div>
+            <p className="text-lg font-semibold">
+              {myPosts?.length || 0}
+            </p>
+            <p className="text-xs text-gray-400">Posts</p>
+          </div>
         </div>
 
-        {/* Buttons */}
         <div className="mt-6 space-y-3">
-          <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition py-2 rounded-lg font-medium">
+          <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 py-2 rounded-lg font-medium">
             <FaEdit />
             Edit Profile
           </button>
 
           <button
             onClick={logOut}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 transition py-2 rounded-lg font-medium"
+            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 py-2 rounded-lg font-medium"
           >
             <FaSignOutAlt />
             Logout
           </button>
         </div>
       </div>
+
+      {/* ================= POSTS SECTION ================= */}
+      <div className="max-w-2xl mx-auto">
+        <h3 className="text-xl font-semibold mb-6 text-center">
+          My Posts
+        </h3>
+
+        {myPosts && myPosts.length > 0 ? (
+         <div className="grid grid-cols-3 gap-2 sm:gap-4">
+  {myPosts.map((post, index) => (
+    <div
+      key={post._id}
+      onClick={() => setSelectedIndex(index)}
+      className="cursor-pointer"
+    >
+      {/* Image container */}
+      <div className="aspect-square bg-gray-800 overflow-hidden rounded">
+        <img
+          src={post.post?.url}
+          alt="post"
+          className="w-full h-full object-cover hover:opacity-80 transition"
+        />
+      </div>
+
+      
+      {post.caption && (
+        <p className="mt-1 text-sm text-gray-300 line-clamp-2 font-bold">
+          {post.caption}
+        </p>
+      )}
+    </div>
+  ))}
+</div>
+
+
+        ) : (
+          <p className="text-gray-400 text-center">
+            No Posts Yet
+          </p>
+        )}
+      </div>
+      {selectedIndex !== null && (
+  <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center overflow-hidden">
+
+    {/* Close */}
+    <button
+      onClick={() => setSelectedIndex(null)}
+      className="absolute top-6 right-6 text-white text-3xl cursor-pointer z-50"
+    >
+      ✕
+    </button>
+
+    {/* Prev */}
+    {selectedIndex > 0 && (
+      <button
+        onClick={() => setSelectedIndex((i) => i - 1)}
+        className="absolute left-4 sm:left-10 text-white text-5xl cursor-pointer z-50"
+      >
+        ‹
+      </button>
+    )}
+
+    {/* Scrollable Post */}
+    <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl">
+      <PostCard value={myPosts[selectedIndex]} />
+    </div>
+
+    {/* Next */}
+    {selectedIndex < myPosts.length - 1 && (
+      <button
+        onClick={() => setSelectedIndex((i) => i + 1)}
+        className="absolute right-4 sm:right-10 text-white text-5xl cursor-pointer z-50"
+      >
+        ›
+      </button>
+    )}
+  </div>
+)}
+
     </div>
   );
 };

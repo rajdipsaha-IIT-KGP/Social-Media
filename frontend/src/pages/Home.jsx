@@ -2,6 +2,7 @@ import React from 'react'
 
 import PostCard from '../Components/PostCard'
 import { PostData } from '../context/PostContext'
+import Navigationbar from '../Components/Navigationbar';
 
 const Home = () => {
   const  {posts} = PostData();
@@ -15,7 +16,10 @@ const Home = () => {
          <PostCard value={e} key={e._id} type={"post"}/>
 
          )
-        }) : "No Posts Yet "
+        }) : (
+          <div>No Posts Yet<Navigationbar/></div>
+          
+        )
       }
       
     </div>
